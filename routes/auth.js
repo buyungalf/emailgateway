@@ -25,6 +25,7 @@ router.get("/authorize", function (req, res) {
   }
 });
 
+
 function tokenReceived(req, res, error, token) {
   if (error) {
     console.log("ERROR getting token:" + error);
@@ -33,8 +34,11 @@ function tokenReceived(req, res, error, token) {
     // save tokens in session
     req.session.access_token = token.token.access_token;
     req.session.refresh_token = token.token.refresh_token;
+    console.log("================================");
+    console.log("token diterima : " + token);
+    console.log("================================");
     req.session.email = authHelper.getEmailFromIdToken(token.token.id_token);
-    res.redirect("/home");
+    res.redirect("/send-email");
   }
 }
 
@@ -50,6 +54,7 @@ router.get("/logincomplete", function (req, res) {
   }
 
   res.send(pages.loginCompletePage(email));
+  
 });
 
 router.get("/refreshtokens", function (req, res) {
